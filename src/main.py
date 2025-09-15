@@ -28,7 +28,8 @@ def task_source_ros() -> tuple[int, str, str]:
     ROS2 Jazzy 환경을 불러오는 명령어를 반환하시오.
     """
     # TODO: 여기에 코드를 작성하시오
-    cmd = ""
+    # cmd = "source /opt/ros/jazzy/setup.bash"
+    cmd = "source /opt/ros/jazzy/setup.bash && env"
     return _run(f"bash -lc '{cmd}'")
 
 
@@ -47,12 +48,13 @@ def task_pkg_create_cmd() -> tuple[int, str, str]:
       - 코드 설명은 D015 homework ROS2 workspace로 지정
     """
     # TODO: 여기에 코드를 작성하시오
-    workspace = Path.home()
-    src_dir = ""
+    workspace = Path.home() / "ws_ros2"
+    src_dir = workspace / "src"
     src_dir.mkdir(parents=True, exist_ok=True)
 
-    cmd = ""
+    cmd = "ros2 pkg create --build-type ament_python --license MIT --maintainer-name kcci --maintainer-email kcci@kcci.com --description \"D015 homework ROS2 workspace\" ros_pkg --dependencies rclpy std_msgs"
     return _run(cmd, cwd=os.path.join(workspace, "src"))
+
 
 
 def task_colcon_build_cmd() -> tuple[int, str, str]:
@@ -61,9 +63,9 @@ def task_colcon_build_cmd() -> tuple[int, str, str]:
     workspace(~/ws_ros2) 경로에서 ros2 빌드하는 명령어를 반환하시오.
     """
     # TODO: 여기에 코드를 작성하시오
-    workspace = Path.home() + "???"
+    workspace = Path.home() / "ws_ros2"
     workspace.mkdir(parents=True, exist_ok=True)
-    cmd = "???"
+    cmd = "colcon build --symlink-install"
     return _run(cmd, cwd=workspace)
 
 
@@ -73,7 +75,7 @@ def task_xhost_cmd() -> tuple[int, str, str]:
     root 유저에 X 권한을 여는 xhost 명령어를 반환하시오.
     """
     # TODO: 여기에 코드를 작성하시오
-    cmd = "..."
+    cmd = "xhost +local:root"
     return _run(cmd)
 
 
@@ -91,10 +93,12 @@ def task_docker_run_cmd() -> str:
       - 실행 명령은 bash 실행
       - -v /tmp/.X11-unix:/tmp/.X11-unix:rw
     """
+    # return "docker run -it --rm --name humble-gui --network=host -e DISPLAY=${DISPLAY} docker run -it --rm --name humble-gui --network=host -e DISPLAY=${DISPLAY} -v /temp/.X11-unix:/tmp/.X11-unix:rw -e ROS_DOMAIN_ID=14 -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp  -v ${HOME}/ros2_ws:/ros2_ws -v ${HOME}/docker/shared:/shared arm64v8/ros:humble -v /temp/.X11-unix:/tmp/.X11-unix:rw -e ROS_DOMAIN_ID=14 -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp  -v ${HOME}/ros2_ws:/ros2_ws -v ${HOME}/docker/shared:/shared arm64v8/ros:humble /bin/bash "
+    return "docker run -it --rm --name humble-gui --network=host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e ROS_DOMAIN_ID=24 -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp -v ${HOME}/ros2_ws:/ros2_ws -v ${HOME}/docker/shared:/shared arm64v8/ros:humble bash"
     # TDO: 여기에 코드를 작성하시오
-    return (
-        "docker run -it --rm --name ...."
-    )
+    # return (
+    #     "docker run -it --rm --name ...."
+    # )
 
 
 if __name__ == "__main__":
